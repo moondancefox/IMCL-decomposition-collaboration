@@ -1,0 +1,43 @@
+﻿\section{Related Work}
+
+The problem of the system decomposition and collaboration has much discussed in academic community during the past decades. The industry has been experimenting with different ways to develop new technologies to achieve better solutions for specific industrial environments\cite{korhonen2001four}.
+% (Systems integration and collaboration in architecture, engineering, construction, and facilities management: A review)
+In \cite{Shen2010196}, it presents that with the rapid advancement of information and communication technologies, particularly the Internet and Web-based technologies during the past years, various systems integration and collaboration technologies have been developed and deployed to different application domains, including architecture, engineering, construction, and facilities management.
+
+The Event-B\cite{Event-B} and the timed automata\cite{timeAutomata}\cite{TimedTools} can be used to model the industrial control systems, and both of them are useful for property verification of safety-critical system. Especially, the Event-B has robust, commercially available tool support for specification, design, prof and generation. However, \emph{IMCL} is designed as a novel language for the automatic decomposition of complex systems. After describing one complex system with the \emph{IMCL}, developers or researchers can use the decomposition algorithm to break the complex system into multiple smaller and simpler sub-systems. Importantly, these sub-systems will hold the same function with the original system by collaborating based on a specific communication mechanism.
+
+% Using program synthesis for program analysis
+Oxford University's latest research\cite{david2015using} proves that procedural decomposition and conversion is beneficial to procedural analysis.
+% (Weiser,线性分析,并行分析)
+Weiser et al.\cite{weiser1981program} has proposed the program slicing method, which introduces how to slice a program with the data-flow and control-flow analysis. Jean Bertrand Gauthie\cite{DBLP:journals/orl/GauthierDL14} and Jingde Cheng\cite{Cheng:1993:SCP:646902.710201} have proved the decomposition theorems for linear programs and the approach of slicing concurrent programs, respectively.
+The \cite{weiser1981program,DBLP:journals/orl/GauthierDL14,Cheng:1993:SCP:646902.710201} are influential on the basis principle of our decomposition algorithms.
+
+% (Multi-Energy Industrial Systems[http://ecnu.summon.serialssolutions.com/#!/search?ho=t&l=zh-CN&q=Cooperation%20in%20Industrial%20Multi-agent%20Systems]。)
+In \cite{Jennings91cooperationin,ferber1999multi,damavandi2016modeling,hanzo2009near}, plenty of researchers devote themselves to the research of multi-system and achieve great achievements.
+% (Event-triggered distributed predictive control for the collaboration of multi-agent systems)
+Zou et al.\cite{zou2016event} investigates  the problem of event-triggered distributed predictive control for multi-agent systems.
+% (Consensus and Cooperation in Networked Multi-Agent Systems)
+R.Olfati-Saber et al.\cite{4118472} provides a theoretical framework for the analysis of consensus algorithms for the decomposition of multi-agent networked system with an emphasis on the role if directed information flow, robustness to change in the network.
+% (Decomposition Analysis of Indurstrial Power Demand of China based on Panel Data Model)
+He et al.\cite{he2008decomposition} analyzes the decomposition under the industrial power demand.
+% (iMRK: Demonstrator for Intelligent and Intuitive Human--Robot Collaboration in Industrial Manufacturing)
+Dennis Mronga et al.\cite{deGeaFernandez2017} introduce the intelligent and intuitive dual-arm robotic system for industrial human-robot collaboration.
+% (Developing collaboration mechanism for multi-agent systems with Petri net)
+Fu-Shiung Hsieh \cite{DBLP:journals/eaai/Hsieh09} propose a collaboration mechanism of resource donation, including unilateral resource donation and reciprocal resource donation. During the process of our study, the collaboration algorithm basing on the premise of resource constraints.
+
+% (Giotto)
+Thomas A.Henzinger et al. present a time-triggered language \emph{Giotto}\cite{henzinger2001giotto}, which provides an abstract programmer's model for the implementation of one embedded control system with hard real-time constraints.
+\emph{Giotto} can be annotated with platform constraints such as task-to-host mappings, and task and communication schedules. Different from \emph{Giotto}, our research focuses on the way how to describe the system with trigger events.
+% (AutoBayes)
+The NASA has released a toolkit \emph{AutoBayes}\cite{schumann2008autobayes} that can decompose and convert one system model from the perspective of the data analysis.
+% (Better Requirements Decomposition Guidelines Can Improve Cost Estimation of Systems Engineering and Human Systems Integration)
+Valerdi et al.\cite{valerdi2010better} details proposed updates to requirements decomposition guidelines that will help generate the number of system requirements.
+% (A different view on system decomposition – subsystem-centered property evaluation in multiple supersystems)
+Arne Herberg et al.\cite{DBLP:conf/csdm/HerbergL13} motivates the need for enhanced support for subsystem development and evaluation in large engineering systems.
+% (Decomposition of Systems and their Requirements -- Decomposition of Systems and their Requirements)
+In \cite{DBLP:phd/de/Penzenstadler2010}, it introduces how to transition from one system to multi-subsystems using a criteria catalog and systematic requirement refinement, and we have inspired a lot from it. In our research, we mainly focus on the constraints of resources, which is the basis rule to decompose one IMCL system.
+% (Industrial Internet of Things-Based Collaborative Sensing Intelligence: Framework and Research Challenges)
+YuanFang Chen et al.\cite{s16020215} introduce the framework and research challenges about the industrial internet of things-Based collaborative sensing intelligence. Their paper thinks that an industrial intelligent ecosystem enables the collection of massive data from the various devices dynamically collaborating with humans. But in our work, we focus on the collaboration between computing units in the industrial control system under the premise of resource constraint, which is different from the previous existing research.
+
+
+

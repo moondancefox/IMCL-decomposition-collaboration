@@ -1,0 +1,39 @@
+\section{Overall Approach}
+This section presents our approach to realize the decomposition and collaboration for complex industrial control system. 
+% Industrial Modelling Collaboration Language (IMCL)
+
+\subsection{The Syntax of $IMCL$}
+\emph{IMCL} is an event-triggered language. The event trigger is a system running mechanism that the processing of some function waiting for the event triggers and then execute the corresponding operation of this event. Here, we will introduce the abstract syntactic of \emph{IMCL}.
+% 定义数值
+\begin{equation*}
+    \begin{aligned}
+        A_{exp} ::= &\ val \mid X \mid a_{0} + a_{1} \mid a_{0} - a_{1} \mid a_{0} * a_{1} \mid a_{0} / a_{1} \\
+        B_{exp} ::= &\ \top \mid \bot \mid a_{0} = a_{1} \mid a_{0} \neq a_{1} \mid a_{0} > a_{1} \mid a_{0} < a_{1} \\
+        C_{exp} ::= &\ channel!m \mid channel?m \mid sync.n \\
+        E_{exp} ::= &\ E_{0};E_{1} \mid E_{0} \triangleleft b \triangleright E_{1} \mid b * E \mid X := a \mid C_{exp} \\
+                    &\mid a \gg Dev \mid a \ll Dev \\
+        T_{exp} ::= &\ trigger \ b \diamond E \mid trigger \ channel?m \diamond E  \\
+    \end{aligned}
+\end{equation*}
+
+$A_{exp}$ is the arithmetic expression where $val$ is value, $X$ is variable, $a_{0}, a_{1} \in A_{exp}$.
+$B_{exp}$ is the boolean expression, where $\top$ and $\bot$ are signifying the \emph{true} and \emph{false}. For every \emph{b} $\in$ $B_{exp}$, it is a bool expression. Next, we mainly introduce some specially expression in \emph{IMCL}. $C_{exp}$ is the communication expression. The $channel!m$ signifies sending a value $m$ from a $channel$ . The $channel?m$ signifies receiving a value $m$ from a $channel$. The $sync.n$ means to get the synchronous data $n$.
+$E_{exp}$ is the execution expression. Condition choice $E_{0} \triangleleft b \triangleright E_{1}$ is that if $b$ is true then $E_{0}$, else $E_{1}$. The $b * E$ indicates that the $E$ will iterates until $b$ is false. Specifically, $a \gg Dev$ denotes that system transmit value $a$ to physical device $Dev$, while $Dev \ll a$ is getting $a$ from $Dev$. $T_{exp}$ is the event-triggered expression. The $trigger \ b \diamond E$ denotes an event $E$ happens when the $b$ is true. The $ trigger \ channel?m \diamond E_{exp}$ indicates that when receiving a $m$ from the $channel$, the event $E$ will begin to execute.
+
+%\subsection{Modelling the Industrial System Using IMCL}
+\subsection{\emph{IMCL} Model for Industrial Control System}
+
+The modelling process focuses on system functions and features as following two steps:
+\medskip
+\textbf{Modelling the physical resources. }
+Representations of physical resources are different based on diverse industrial environment, for instance, sensors, read-write devices, and the other resources. Considering their effects on the whole system, we describe all those resources as variables to unifying definition of resources.
+
+\medskip
+\textbf{Modelling the system. }
+Observing its behavior, the nature of the system is gathering functions, read-write operations, and other actions together. Similar to physical resources, we model them as execution expressions. Multiple execution expressions in one specific order can make up one trigger event marked as $T$.
+
+An \emph{IMCL} model consists of multiple concurrent trigger events, and every event is triggered only when its condition is satisfied. Let $\bowtie$ be the concurrent operation of two events such that $T_1\bowtie T_2$. Then, the \emph{IMCL} model \emph{Prog} can be defined:
+\begin{displaymath}
+Prog = \overset{n}{\underset{i=1}{\bowtie}} T_{i}, n \in N^{+}
+\end{displaymath}
+

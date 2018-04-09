@@ -1,0 +1,20 @@
+\section{Introduction}
+``Industry 4.0" is a term originated by the German government for promoting the computerization of manufacturing\cite{industrial4}.
+% The Industrial control system involves the Cyber-Physical Systems (CPS), the Internet of Things (IoT) and cloud computing etc in manufacturing.
+An industrial environment contains the normal work condition of people like offices, physical resources such as manufacturing equipment, storage and so on.
+Many wireless networks monitor various aspects of the environment and transfer the data information to a central processor\cite{oliveira2011wireless}. Most of those actual industrial control systems are containing some Computing Units(CUs)\cite{GERO199065}. Every CU has the capability to process tasks and schedule specific physical resources.
+However, there are many physical resources in a system. Meanwhile, the industrial control system has a variety of functions and is more intelligent. Hence, the traditional industrial environment has become more complex than before. It leads to the analysis and verification of such systems more difficult. The cost of system research and application is more expensive.
+
+% 复杂系统带来的不便
+To overcome the limitation, decomposition is used to reduce the complexity of the system for research and applications. \textbf{Decomposition} is a technique to master the function complexity of the model. Usually, a functional model can be replaced by a series of models of sub-systems after decomposition.
+An actual industrial control system can be treated as a complex model. Every Computing Unit(CU) in a system can realize some part function of the system and can be considered as the corresponding models of sub-systems. Decomposition is a well-developed technique and it is widely applied to solve the problems brought by the function complexity.
+
+However, most CUs have limits since the physical resource scheduling is limited. If one system is too complex to be handled by one CU, it needs to use multiple CUs to collaborate with each other.
+Many researchers\cite{DBLP:phd/de/Penzenstadler2010,henzinger2001giotto} have achieved great achievements about the collaboration of industrial system. Many researchers focus on the industrial intelligent ecosystem\cite{s16020215,deGeaFernandez2017} to handle the collection of massive data from the various devices dynamical collaboration.
+But they didn't take the complex physical resources into consideration for the whole process of collaboration.
+For example, there are three physical resources(\emph{res}1, \emph{res}2, \emph{res}3) in one system and all of those resources should work together, and two CUs($CU_{1}$, $CU_{2}$), where $CU_{1}$ is limited to schedule \emph{res}1 and \emph{res}2, and $CU_{2}$ is limited to schedule \emph{res}1 and \emph{res}3. Neither of the two CUs can implement the system. So, it is necessary to find the best solution to make the two CUs collaboration with each other to implement the system.
+
+Although there are some modeling language and notation such as the Event-B\cite{Event-B} and timed-automata\cite{timeAutomata}\cite{TimedTools}, etc. They are more appropriate for modeling and verifying some specification about the industrial control system. But it is not convenient and efficient for them to decompose one complex system into multiple smaller and simpler sub-systems under the constraints of resources.
+
+In our research, we present an event-triggered language called \emph{Industrial Modeling Collaboration Language}(\emph{IMCL}) which is platform-independent for heterogeneous systems. By this language, we can describe the physical resources and systems in one unified model.
+To maintain its functional consistency between sub-systems and original composited model, we propose the approach that can decompose the complicated system model to exact number of collaborative sub-systems appropriately corresponding to every CU with the constraints of resources.

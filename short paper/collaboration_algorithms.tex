@@ -1,0 +1,11 @@
+\section{Collaboration Algorithm}
+
+The key to ensuring the reliability of \emph{Original Model} and \emph{Collaboration Model} is the communication in the process of collaboration, which is based on the SDG analysis.
+
+We abstract the communication protocols between multiple models. The $IMCL$  unifies the communication and data synchronous among multiple models. There are three specific communication methods as follows:
+\begin{itemize}
+  \item \textbf{CHANNEL.CD!x} and \textbf{CHANNEL.CD?x},  the symbol \emph{CHANNEL.CD} is used for the control message and applied to the communication with control-dependence in multiple CUs or multiple internal event triggers in a signal CU. \emph{CHANNEL.CD!x} shows the model transmits a control message $x$ along the channel; \emph{CHANNEL.CD?x} denotes that receives the control message $x$ via the channel.
+  \item \textbf{CHANNEL.DD!x:data} and \textbf{CHANNEL.DD?x:data},  \emph{CHANNEL.DD} is used for data message and is applied to the communication with data-dependence in multiple CUs or multiple internal triggers in a signal CU. \emph{CHANNEL.DD!x:data} shows the model transmits a data message $x$ with $data$ along the channel; \emph{CHANNEL.DD?x:data} denotes that a control message x with data via the channel.
+  \item \textbf{SYNC.DATA:data},  the \emph{SYNC.DATA} is used to synchronize the data in different event triggers. Both \emph{CHANEL.DD} and \emph{SYNC.DATA} are used to synchronize the data. But different from \emph{CHANEL.DD}, \emph{SYNC.DATA} does no have any dependence on the $data$ in the original Model.
+\end{itemize}
+

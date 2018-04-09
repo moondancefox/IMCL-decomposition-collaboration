@@ -1,0 +1,197 @@
+\section{Collaboration Algorithm}
+% To keep the same abilities like the Original Model is essential to collaborate the Decomposition Models.
+%Next, we introduce the collaboration under the resource constraint and the allocation of resources. Also, we will describe how the decomposed models collaborate with the data dependence and control dependence. Finally, we introduce the way get the most optimal solution after the evaluations.
+Now we will show the collaboration algorithm. As a vital part of this algorithm, the most optimizing solution for collaboration can be got after an evaluation. The key to ensuring the reliability of \emph{Original Model} and \emph{Collaboration Model} is the communication in the process of collaboration, which is based on the SDG analysis.
+%  efficiently and reliability.
+%\textcolor[rgb]{1,0,0}{TODO: Fig 2.}
+%\begin{figure}[!hpbt]
+%    \centering
+%        \includegraphics[height=0.5in, width=0.5in]{fig_Decomposition}
+%    \caption{Overview of decomposition approach}\label{fig_4}
+%\end{figure}
+%
+%As shown in \ref{fig_4}, It shows the ......
+
+\subsection{Communication of Collaboration}
+
+%In the industrial control system, there are two types of communications in the programming control module and its network: one is the parallel communication, the other is the serial communication. Take the programmable controller($PLC$) as an example: Parallel communication generally occurs in the $PLC$ internal, it refers to the multi-processor PLC in the communication between multiple processors, as well as $PLC \ CPU$ unit and intelligent template of the communication between the CPU. The former is in the coprocessor control and management, through the shared memory area to achieve multi-processor data exchange; the latter is through the common bus to achieve communication.
+
+% In our research, 建模语言抽象掉实现细节、忽略具体的通信协议特性，从整体的角度设计模型之间的协作通信。
+
+We abstract the communication protocols between multiple models. The $IMCL$  unifies the communication and data synchronous among multiple models. There are three specific communication methods as follows:
+\begin{itemize}
+  \item \textbf{CHANNEL.CD!x} and \textbf{CHANNEL.CD?x},  the symbol \emph{CHANNEL.CD} is used for the control message and applied to the communication with control-dependence in multiple CUs or multiple internal event triggers in a signal CU. \emph{CHANNEL.CD!x} shows the model transmits a control message $x$ along the channel; \emph{CHANNEL.CD?x} denotes that receives the control message $x$ via the channel.
+  \item \textbf{CHANNEL.DD!x:data} and \textbf{CHANNEL.DD?x:data},  \emph{CHANNEL.DD} is used for data message and is applied to the communication with data-dependence in multiple CUs or multiple internal triggers in a signal CU. \emph{CHANNEL.DD!x:data} shows the model transmits a data message $x$ with $data$ along the channel; \emph{CHANNEL.DD?x:data} denotes that a control message x with data via the channel.
+  \item \textbf{SYNC.DATA:data},  the \emph{SYNC.DATA} is used to synchronize the data in different event triggers. Both \emph{CHANEL.DD} and \emph{SYNC.DATA} are used to synchronize the data. But different from \emph{CHANEL.DD}, \emph{SYNC.DATA} does no have any dependence on the $data$ in the original Model.
+\end{itemize}
+
+
+\subsection{Collaboration of Decomposed Models}
+Let's review some definition. An  \emph{Original Model} is an IMCL program consisting of multiple event triggers. For each program of the CU, its program $Prog_{cu}$ can be obtained based on the $decompModel$ after the process of decomposition.
+
+The \textbf{Algorithm \ref{alg:collaboration}} presents the principle procedure of the collaboration algorithm.
+It has three \textbf{inputs}:
+\begin{enumerate}
+  \item $Prog_{orig}$: \ An \emph{Original model} described as a set of event-triggers or a set of statements; $T_{orig}^{i}$ is one event-trigger in $Prog_{orig}$ which the statement $i$ is in.
+  \item decompModel: \ got from the Algorithm \ref{alg:SDGtoDecomposition};
+  \item The exact number of $Prog_{cu}$: \  the $Prog_{cu}(n)$ denotes the statement $m$ in a $Prog_{cu}$;  $T_{cu}^{i}$ is the event trigger in one $Prog_{cu}$ which the statement $i$ is in.
+\end{enumerate}
+
+The \textbf{output} is the actual number of \emph{$Prog'_{cu}$s} with CHANNEL.CD, CHANNEL.DD and SYND.DATA.
+
+\begin{algorithm}[htb!]
+\SetKwInOut{Input}{input}
+\SetKwInOut{Output}{output}
+\SetKwProg{Fn}{function}{}{}
+\SetKwFunction{collaborateStatements}{collaborateStatements}
+%\DontPrintSemicolon
+% \tiny\tiny\scriptsize\footnotesize\small\normalsize\large\Large\LARGE\huge\Huge\footnotesize\small\normalsize\large\Large\LARGE\huge\Huge
+% \liuhao
+\small
+\label{alg:collaboration}
+    \caption{Collaboration of models.}
+    \KwIn{(1) Original model $Prog_{orig}$ and $decompModel$;\\
+    \ \ \ \ \ \ \ \ \ (2)$Prog_{cu}$ for every CU.}
+    \BlankLine
+    \KwOut{(1) $Prog_{cu}'$ with \emph{CHANNEL.CD,CHANNEL.DD and SYND.DATA} ;}
+    \BlankLine
+    \BlankLine
+
+    \For{$\forall$ n, m $\in$ N, n $\neq$ m}
+    {
+        \If{m $\in$ INFL(n)}
+        {
+            \If{$T_{cu}^{m}$ $\neq$ $T_{cu}^{n}$ }
+            {
+                CHANNEL.CD $\langle$ $Prog_{cu}(n)$, $Prog_{cu}(m)$ $\rangle$ \;
+            }
+
+        }
+
+        \If{m $\in$ $DD_{post}$(n)}
+        {
+            \eIf{$decompModel$.get(m) = $decompModel$.get(n)}
+            {
+                \If {$T_{cu}^{m}$ $\neq$ $T_{cu}^{n}$}
+                {
+                    \collaborateStatements(n, m)\;
+                }
+            }
+            {
+                \collaborateStatements(n, m)\;
+            }
+        }
+    }
+
+
+    \Fn{\collaborateStatements{Statement n, Statement m}}
+    {
+%   (a) 两个原始代码在原始模型的同一个trigger中：
+%		（i）如果n是if/while，则是sync.data
+%		（ii）是CHANNEL.DD
+%	(b) 两个原始代码在原始模型的不同Trigger中：Sync.data
+        \eIf{$T_{orig}^{m}$ = $T_{orig}^{n}$}
+        {
+            \eIf{ Exp(n) $\in$ \{'IF', 'WHILE'\} }
+            {
+                SYNC.DATA  $\langle$ $Prog_{cu}(n)$, $Prog_{cu}(m)$ $\rangle$ \;
+            }
+            {
+                CHANNEL.DD $\langle$ $Prog_{cu}(n)$, $Prog_{cu}(m)$ $\rangle$ \;
+            }
+        }
+        {
+            SYNC.DATA $\langle$ $Prog_{cu}(n)$, $Prog_{cu}(m)$ $\rangle$ \;
+        }
+    }
+\end{algorithm}
+
+Firstly, we should consider the control-dependence of statements in CUs.
+For any two different statements $n$ and $m$ that $m$ is control-dependence on $n$ in $Prog_{orig}$. If the two different statements are in different trigger events in $Prog_{cu}$s, we should implement the \emph{CHANNEL.CD} to collaborate the two statements. The \emph{CHANNEL.CD$\langle$n, m$\rangle$} indicates that the CU containing n sends a \emph{CHANNEL.CD!x} message after executing the $n$, and the CU containing $m$ will not execute the $m$ until receiving the message \emph{CHANNEL.CD?x}.
+Secondly, we will consider the data-dependence of statements in CUs.
+For any two different statement $n$ and $m$ that the m is date-dependence on $n$ in $Prog_{orig}$. If both $n$ and $m$ are in the same CU but in different trigger event, then we handle the collaboration like $collaborateStatements$. The $collaborateStatements$ describes the process that if the $n$ is a structure containing more than one immediate successor, then we should implement the CHANNEL.DD to collaborate the two statements. Otherwise, we implement the \emph{SYNC.DATA} to collaborate these statements. If both $n$ and $m$ are in different CUs, we will handle the collaboration the same as the function $collaborateStatements$.
+The \emph{CHANNEL.DD $\langle$n, m$\rangle$} indicates that the CU containing $n$ sends a \emph{CHANNEL.CD!x:data} message with data after executing the $n$, and the CU containing m will not execute the $m$ until receives the message \emph{CHANNEL.CD?x:data} with data. The \emph{SYNC.DATA$\langle$n, m$\rangle$} indicates that the CU containing m synchronize the variable rewrite by $n$ at any time.
+
+In this algorithm \ref{alg:SDGtoDecomposition}, the algorithm can be summarized that requires $\mathcal{O}(|N|^2|T|)$ time, and $\mathcal{O}(2|N|+|T_{cu}|+|T_{orig}|)$ space.
+
+\subsection{Optimization of Collaboration Model}
+During the collaboration process, it is important to analyze and evaluate some of the characteristics of the collaboration models to get the most optimal solution. For a collaborated model, it is necessary and efficient to reduce the number of communications between CUs as much as possible. For the fact that some resources can be allocated to different CUs, there is need to evaluate the different results to find the best collaboration model.
+
+\textbf{Resource Allocation}\ :  Some resources in system model can be scheduled by a number of different CUs. Therefore, different allocations of those resources will cause different resource constraints and will contribute to different collaboration models. For example, there are four resources($res$1, $res$2, $res$3, $res$4) and the relation of CUs mapping resources is:
+\begin{equation*}
+    \begin{aligned}
+        A_{cu}:\{ \ res1, \ res2, \ res4 \ \}\\
+        B_{cu}:\{ \ res1, \ res3, \ res4 \ \}
+    \end{aligned}
+\end{equation*}
+and they can be combined into the following four different resource constraints because the \emph{res}1 and \emph{res}4 can be allocated to $A_{cu}$ or $B_{cu}$:
+\begin{equation*}
+\footnotesize
+    \begin{aligned}
+        Allocation\  1: \ \{ \ res1:A_{cu}, \ \ res2:A_{cu}, \ \ res3:B_{cu}, \ \ res4:A_{cu} \ \ \}\\
+        Allocation\ 2: \ \{ \ res1:A_{cu}, \ \ res2:A_{cu}, \ \ res3:B_{cu}, \ \ res4:B_{cu} \ \ \}\\
+        Allocation\ 3: \ \{ \ res1:B_{cu}, \ \ res2:A_{cu}, \ \ res3:B_{cu}, \ \ res4:A_{cu} \ \ \}\\
+        Allocation\ 4: \ \{ \ res1:B_{cu}, \ \ res2:A_{cu}, \ \ res3:B_{cu}, \ \ res4:B_{cu} \ \ \}
+    \end{aligned}
+\end{equation*}
+\medskip
+
+%\textbf{Evaluation of Collaboration Model:}\  We define \emph{CD}, \emph{DD} and \emph{SYNC} as the number of \emph{CHANNEL.CD}, \emph{CHANNEL.DD}, \emph{SYNC.DATA}, respectively, in one collaboration solution. The evaluation is presented in a formula:
+%% CD DD SYNC
+%% In our research, we define a partial relationship to present the evaluation of different solutions. The <S, R> is a non-strict partial order set
+%
+%\begin{displaymath}
+%    Eval(Sol_{i}) \ = k1 * Sum^{2}(CD_{i}) + k2 * Sum^{2}(DD_{i}) + k3 * Sum^{2}(SYNC_{i})
+%\end{displaymath}
+%
+%We define a weighted formula $Eval$ to evaluate different solutions. Where $k1,k2,k3$ are all constant value. The $Sum^{2}(CD_{i})$, $Sum^{2}(DD_{i})$ and $Sum^{2}(SYNC_{i})$ indicate squared value of \emph{CD}, \emph{DD} and \emph{SYNC} in one solution. Finally, we compare different evaluations. The smaller the value of $Eval(Sol_{i})$ , the better the solution is.
+%
+
+\textbf{Optimization of Collaboration Model:}\ In our work, we suggest an evaluation strategy to help researchers and developer to find the relatively optimal collaboration model. The evaluation is presented in a formula:
+
+%\onecolumn
+%\begin{equation*}
+%    \begin{aligned}
+%    Eval(Sol_{i}) =\      w_{cd} &* \frac{CD_{i} - CD_{min}}{CD_{max} - CD_{min}} * CD_{i}\\
+%                      + \ w_{dd} &* \frac{DD_{i} - DD_{min}}{DD_{max} - DD_{min}} * DD_{i}\\
+%                    + \ w_{sycn} &* \frac{SYNC_{i} - SYNC_{min}}{SYNC_{max} - SYNC_{min}} * SYNC_{i}\\
+%    \end{aligned}
+%\end{equation*}
+
+\begin{equation*}
+\footnotesize
+    \begin{aligned}
+    Eval(Sol_{i}) =\ & \frac{CD_{i} - CD_{min}}{CD_{max} - CD_{min}}
+                    + \frac{DD_{i} - DD_{min}}{DD_{max} - DD_{min}} \\
+                    +\ & \frac{SYNC_{i} - SYNC_{min}}{SYNC_{max} - SYNC_{min}}\\
+    \end{aligned}
+\end{equation*}
+
+%\begin{displaymath}
+%    Eval(Sol_{i}) =\ \frac{CD_{i} - CD_{min}}{CD_{max} - CD_{min}} + \ \frac{DD_{i} - DD_{min}}{DD_{max} - DD_{min}}\\
+%                     + \frac{SYNC_{i} - SYNC_{min}}{SYNC_{max} - SYNC_{min}}\\
+%\end{displaymath}
+
+The proposed evaluation formula is based on the normalization.
+We use the formula to compare the different effect of results.
+It includes there parts of \emph{control dependence}, \emph{data dependence} and \emph{synchronization}, and we define CD, DD and SYNC as the number of CHANNEL.CD, CHANNEL.DD, SYNC.DATA, respectively, in one collaboration solution.
+%$w_{cd}$, $w_{dd}$ and $w_{sync}$ are the weighed parameter of working by CHANNEL.CD, CHANNEL.DD and SYNC.DATA, respectively, and the weighted are all decided by the effect of physical devices in the system.
+For the example of part of CHANNEL.CD, the minimum data of serial $CD_{i}$ is identified as $CD_{min}$ and the maximum one is identified as $CD_{max}$ by the result of all solution statistics.
+Furthermore, it is a common way to pretreat the data by the construct of normalization to map every value of $CD_{i}$ to a fixed range between 0 and 1 for scaling it reasonably.
+%For each solution which we called $Sol_i$ equal the corresponding weights $w_{cd}$ multiply the pretreated $CD_{i}$. It is remarkable that the $w_{cd}$ is relative $w_{dd}$ and $w_{sycn}$ differently, in other words, it is the same value for every $CD_{i}$ where $i$ is between 1 and n, n is the number of solutions.
+The part of CHANNEL.DD and SYNC.DATA expression are similar to the CHANNEL.CD, just the object of control dependence was replaced by data dependence or synchronization. The last step, of course, is summing the value of three different parts and the smaller the value of Eval($Sol_i$), the better the solution is.
+
+
+
+% Collaboration 原理
+%原始模型的的两个不同statement：n，m，如果存在m控制依赖于n;
+%（1）如果是不同的两个trigger中，则CHANNEL.CD
+%
+%原始模型的的两个不同statement：n，m，如果存在m数据依赖于n;
+%（1）如果分解在同一个CU中，在同一个Trigger中：不需要考虑同步；
+%（2）如果分解在同一个CU中，在不同的Trigger中：
+%	(a) 两个原始代码在原始模型的同一个trigger中：
+%		（i）如果n是if/while，则是sync.data
+%		（ii）是CHANNEL.DD
+%	(b) 两个原始代码在原始模型的不同Trigger中：Sync.data
+%(3)分解在不同的CU：同（a）&&（b）

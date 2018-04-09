@@ -1,0 +1,9 @@
+\section{Decomposition Algorithms}
+Only with the analysis of SDG, we can determinate the dependence of control flow and data flow to keep the constancy of \emph{Original Model} and \emph{Decomposition Model}. As a result, SDG analysis is a very important part of the decomposition algorithms.
+
+To decompose the \emph{Original Model} into \emph{Decomposition Model} with resource constraints. $DD_{pre}$, the \emph{pre} data-dependency for each statement, can be obtained from corresponding $DD_{post}$. The definition is as follows:
+\begin{displaymath}
+    DD_{pre}(j) \ = \ \{ i \ | \ j \in DD_{post}(i), \ \forall i, j \in N \}
+\end{displaymath}
+where $j$ is a statement that data-depended on the statement in $DD_{pre}(j)$.
+% For example, $DD_{pre}(j) = \{2, 7\}$ means that the statement $j$ are data-depended on statement $2$ and $7$.
