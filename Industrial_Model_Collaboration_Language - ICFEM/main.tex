@@ -1,0 +1,54 @@
+
+\documentclass[runningheads,a4paper]{llncs}
+
+%\usepackage{amssymb}
+%\setcounter{tocdepth}{3}
+%\usepackage{graphicx}
+%
+%\usepackage{url}
+%\urldef{\mailsa}\path|{alfred.hofmann, ursula.barth, ingrid.haas}@springer.com|
+%\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+%\noindent\keywordname\enspace\ignorespaces#1}
+
+\input{packages_and_commands}
+
+\begin{document}
+
+\newcommand{\bahao}{\fontsize{8pt}{\baselineskip}\selectfont}
+\newcommand{\badianwuhao}{\fontsize{8.5pt}{\baselineskip}\selectfont}
+\newcommand{\jiuhao}{\fontsize{9pt}{\baselineskip}\selectfont}
+\mainmatter  % start of an individual contribution
+
+% first the title is needed
+% \title{IMCL - An Event-Triggered Language for the Decomposition and Collaboration of Industrial System}
+\title{Decomposition and Collaboration of Industrial Control System with Resource Constraints}
+
+% a short form should be given in case it is too long for the running head
+%\titlerunning{Lecture Notes in Computer Science: Authors' Instructions}
+%\titlerunning{The Decomposition and Collaboration of Industrial System}
+\titlerunning{Decomposition and Collaboration of Industrial Control System}
+
+\input{authors}
+
+\toctitle{Lecture Notes in Computer Science}
+\tocauthor{Authors' Instructions}
+\maketitle
+
+\input{abstract}
+\input{introduction}
+\input{preliminary}
+\input{approach}
+\input{decomposition_algorithms}
+\input{collaboration_algorithms}
+\input{case_study}
+% \input{related_works}
+\input{conclusion}
+
+
+%\subsubsection*{Acknowledgments.}
+%\TODO{TODO}{To be added by Yanhong Huang.}
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\end{document}

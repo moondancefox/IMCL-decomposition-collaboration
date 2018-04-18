@@ -1,0 +1,111 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    Comments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{blindtext}
+\setcounter{tocdepth}{3}
+\usepackage{verbatim}
+\usepackage{framed}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[varg]{txfonts}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{eqparbox}
+\usepackage{booktabs}
+\usepackage{stmaryrd}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{epsfig,graphics}
+\usepackage{amsmath}
+\usepackage{wasysym}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{url}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    Algorithm
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[]{algorithm2e}
+\usepackage{algorithmicx}
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\usepackage{algpseudocode}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    Other Useful Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{multirow}
+\usepackage{extarrows}
+\usepackage{xcolor}
+\usepackage{listings}
+\lstset{
+    backgroundcolor=\color{white},
+    basicstyle=\tt,
+    keywordstyle=\color{blue},
+    % add keywords
+    morekeywords={IF, THEN, ELSE, END_IF},
+    numbers=left,
+%    numbersep=pt,
+    numberstyle=\tiny\color{gray},
+    title=\lstname,
+    rulesepcolor=\color{red!20!green!20!blue!20},
+    % set margin
+    xleftmargin=2em,xrightmargin=2em, aboveskip=1em,
+    % frame
+    framexleftmargin=0.5mm,
+    frame=shadowbox,
+    % background color
+    backgroundcolor=\color[RGB]{245,245,244},
+    tabsize=4
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\Real}{{\mathbb R}}
+\newcommand{\Inh}[2]{\mathsf{Inh}\mathsf{(#1, #2)}}
+\newcommand{\Cal}[2]{\mathsf{Cal}\mathsf{(#1, #2)}}
+\newcommand{\Con}[2]{\mathsf{Con}\mathsf{(#1, #2)}}
+\newcommand{\Cre}[2]{\mathsf{Cre}\mathsf{(#1, #2)}}
+\newcommand{\Ref}[2]{\mathsf{Ref}\mathsf{(#1, #2)}}
+\newcommand{\rand}{\wedge}
+\newcommand{\ror}{\vee}
+\newcommand{\rimply}{\Rightarrow}
+\newcommand{\rr}{\rightarrow}
+\newcommand{\nr}{\rightsquigarrow}
+\newcommand{\rnot}{!}
+\newcommand{\Instances}[1]{\mathsf{Inst}\mathsf{(#1)}}
+\newcommand{\TypeOf}[1]{\mathsf{Type}\mathsf{(#1)}}
+\newcommand{\AttrValue}[2]{\mathsf{AttrVal}\mathsf{(#1, #2)}}
+\newcommand{\Value}[1]{\mathsf{Val}\mathsf{(#1)}}
+\newcommand{\InitialValue}[1]{\mathsf{InitVal}\mathsf{(#1)}}
+\newcommand{\Contains}[2]{\mathsf{Con}\mathsf{(#1, #2)}}
+\newcommand{\patomic}{\mathsf{atomic}}
+\newcommand{\pskip}{\mathsf{skip}}
+\newcommand{\pmf}[1]{\mathsf{#1}}
+\newcommand{\szihao}{\fontsize{1pt}{1pt}\selectfont}
+\newcommand{\sfrac}{\szihao \dfrac}
+\newcommand{\WI}[1]{{\itshape{\small{#1}}}}
+\newcommand{\cname}[1]{{\small ${#1}$}}
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+\renewcommand{\thefootnote}{\alph{footnote}}
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+%\usepackage[square, comma, sort&compress, numbers]{natbib}
+\usepackage{color}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+\usepackage{epstopdf}
+\usepackage[colorlinks,
+            linkcolor=black,
+            anchorcolor=black,
+            citecolor=blue,
+			urlcolor=black,
+            bookmarks=true
+            ]{hyperref}
+\newcommand{\TODO}[2]{{\textcolor{blue}{#1}}$\to${\textcolor{red}{#2}}}
+\newcommand{\ASSIGN}[1]{{\textcolor{red}{#1}}}
+\newcommand{\SOLVED}[2]{#2}
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip
+\noindent\keywordname\enspace\ignorespaces#1}
+\renewcommand\thesubsection{\Alph{subsection}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    Theorem Environment definition
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newtheorem{thm}{Theorem}
+%\newtheorem{definition}{\bf Definition}
+

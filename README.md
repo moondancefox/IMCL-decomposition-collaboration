@@ -1,1 +1,1 @@
-# IMCL-decomposition-collaboration
+# Paper-IMCL-decomposition-collaboration
